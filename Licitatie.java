@@ -1,0 +1,55 @@
+package Etapa_1;
+
+public class Licitatie {
+
+
+    protected int id;
+    protected Obiect obiect;
+    protected int pretPornire;
+    protected int timpAsteptare;
+    protected int pretVanzare;
+    protected int idCastigator;
+
+    private static int counter = 0;
+
+    public Licitatie(Obiect obiect, int pretPornire, int timpAsteptare){
+
+        this.obiect=obiect;
+        this.pretPornire=pretPornire;
+        this.timpAsteptare=timpAsteptare;
+        counter++;
+        this.id = counter;
+
+    }
+
+    public void setObiect(Obiect obiect) {
+        this.obiect=obiect;
+
+    }
+
+    public void setPretPornire(int pretPornire) {
+        this.pretPornire=pretPornire;
+
+    }
+
+    public void setTimpAsteptare(int timpAsteptare) {
+        this.timpAsteptare=timpAsteptare;
+
+    }
+
+    public void setIdCastigator(int idCastigator){
+        this.idCastigator=idCastigator;
+
+    }
+
+    public void setPretVanzare(int pretVanzare){
+        this.pretVanzare=pretVanzare;
+    }
+
+
+
+
+
+
+
+}
