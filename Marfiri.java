@@ -2,38 +2,41 @@ package Etapa_1;
 import java.util.Date;
 public class Marfiri extends Obiect {
 
-    protected int numarLot;
-    protected Date dataExpirare;
+    protected int idMarfa;
+    protected int greutate;
+    protected int volum;
+    protected Date dataProductiei;
+    protected String descriere;
+    protected String locatie;
 
-    public Marfiri(int valoare, int numarLot, Date dataExpirare) {
+    private static int counter= 0;
 
-        super(valoare);
-        this.numarLot=numarLot;
-        this.dataExpirare=dataExpirare;
+
+    public Marfiri(int valoare, int greutate, int volum, Date dataProductiei, String descriere, String locatie) {
+
+        super(valoare,"Marfuri");
+
+        this.greutate=greutate;
+        this.volum=volum;
+        this.dataProductiei=dataProductiei;
+        this.descriere=descriere;
+        this.locatie=locatie;
+        counter++;
+        this.idMarfa = counter;
+    }
+
+
+    public void AfisareDate(){
+
+        System.out.println("Tip Obiect "+this.tipObiect);
+        System.out.print("ID Marfa="+this.idMarfa);
+        System.out.print(" Greutate="+this.greutate+"kg");
+        System.out.print(" Volum="+this.volum+"metri cubi");
+        System.out.print(" Data fabricarii="+this.dataProductiei);
+        System.out.print(" Descriere="+this.descriere);
+        System.out.println(" Locatie="+this.locatie);
+        System.out.println();
 
     }
 
-    public void setNumarLot(int numarLot){
-
-        this.numarLot=numarLot;
-
-    }
-
-    public int getNumarLot()
-    {
-        return  numarLot;
-    }
-
-
-
-    public void setDataExpirare(Date dataExpirare){
-
-        this.dataExpirare=dataExpirare;
-
-    }
-
-    public Date getDataExpirare()
-    {
-        return  dataExpirare;
-    }
 }

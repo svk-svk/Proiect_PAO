@@ -1,5 +1,7 @@
 package Etapa_1;
 
+import java.util.ArrayList;
+
 public class Licitatie {
 
 
@@ -9,6 +11,7 @@ public class Licitatie {
     protected int timpAsteptare;
     protected int pretVanzare;
     protected int idCastigator;
+    protected ArrayList<Bid> bids;
 
     private static int counter = 0;
 
@@ -46,7 +49,13 @@ public class Licitatie {
         this.pretVanzare=pretVanzare;
     }
 
+    public void AfisareLicitatie(){
 
+
+        System.out.println("Obiect");
+
+
+    }
 
 
 
