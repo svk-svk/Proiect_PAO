@@ -1,26 +1,31 @@
 package Etapa_1;
 
-import Etapa_1.Licitatie.*;
 
-import java.lang.invoke.LambdaConversionException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 
 public abstract class Interogare {
 
-    static ArrayList<User> users = new ArrayList();
-    static ArrayList<Licitatie> licitaties = new ArrayList<>();
-    static ArrayList<Obiect> obiects = new ArrayList();
-    static ArrayList<Bid> bids = new ArrayList();
-    static Licitatie activLicitatie;
+    static ArrayList<User> users =CitireBD.getInstance().CitireUsersBD();
+                                //Citire.getInstance().citireUsers();
+
+    static ArrayList<Licitatie> licitaties = CitireBD.getInstance().CitireLicitatieBD();
+                                            //Citire.getInstance().citireLicitatii();
+
+    static ArrayList<Obiect> obiects = CitireBD.getInstance().CitireObiecteBD();
+                                        //Citire.getInstance().citireObjects();
+    static ArrayList<Bid> bids = CitireBD.getInstance().CitireBidsBD();
+                                //Citire.getInstance().citireBid();
     static User activUser;
 
-    static int pozitieUser=0;
+    static int pozitieUser=-1;
+
 
     static AuditService audit = AuditService.getInstance();
-
-
 
 
     public static void MeniuConectare(){
@@ -29,26 +34,26 @@ public abstract class Interogare {
         boolean activ=true;
         while (activ)
         {
-            System.out.println("Salut"+activUser.userName);
-        System.out.println("Aveti Urmatoarele Optiuni:");
-        System.out.println("1 Adauga Credit");
-        System.out.println("2 Schimbare Parola");
-        System.out.println("3 Vizualizeaza Licitatiile");
-        System.out.println("4 Plaseaza Bid");
-        System.out.println("5 Vizualizeaza detalii cont");
+            System.out.println("Salut "+activUser.userName);
+            System.out.println("Aveti Urmatoarele Optiuni:");
+            System.out.println("1 Adauga Credit");
+            System.out.println("2 Schimbare Parola");
+            System.out.println("3 Vizualizeaza Licitatiile");
+            System.out.println("4 Plaseaza Bid");
+            System.out.println("5 Vizualizeaza detalii cont");
 
-        System.out.println("0 Deconectare");
+            System.out.println("0 Deconectare");
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Inserati un nr: ");
-        int alegereLicitator = scanner.nextInt();
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Inserati un nr: ");
+            int alegereLicitator = scanner.nextInt();
 
-          if(alegereLicitator==1){Adauga_Credit();}
-        else if(alegereLicitator==2){SchimbareParola();}
-        else if(alegereLicitator==3){}
-        else if(alegereLicitator==4){}
-        else if(alegereLicitator==5){Detalii_Cont();}
-        else if(alegereLicitator==0){Deconectare();activ=false;}}
+            if(alegereLicitator==1){Adauga_Credit();}
+            else if(alegereLicitator==2){SchimbareParola();}
+            else if(alegereLicitator==3){AfisareLicitati();}
+            else if(alegereLicitator==4){AdaugaBid();}
+            else if(alegereLicitator==5){Detalii_Cont();}
+            else if(alegereLicitator==0){Deconectare();activ=false;}}
 
 
 
@@ -64,8 +69,8 @@ public abstract class Interogare {
         pozitieUser=-1;
 
     }
-    
-    
+
+
     public static void SchimbareParola(){
 
         Scanner scanner = new Scanner(System.in);
@@ -84,7 +89,8 @@ public abstract class Interogare {
 
         activUser.setPassword(parolaNoua);
         audit.Write("Schimbare parola "+activUser.userName);
-        
+        users.set( pozitieUser, activUser );
+        UpdateBD.UpdatePasswordUserBD(parolaNoua,activUser.id);
     }
 
 
@@ -162,7 +168,7 @@ public abstract class Interogare {
     {
         for(User el:users){
 
-          if(el.userName.equals(name)) return true;
+            if(el.userName.equals(name)) return true;
 
         }
         return false;
@@ -224,7 +230,7 @@ public abstract class Interogare {
         int aux= scanner.nextInt();
         activUser.sumaCont=activUser.sumaCont+aux;
         audit.Write("Adauga Credit "+activUser.userName);
-
+        users.set( pozitieUser, activUser );
 
     }
 
@@ -280,10 +286,9 @@ public abstract class Interogare {
 
             System.out.println("Pret de pornire:");
             int pretPornire=scanner.nextInt();
-            System.out.println("Timp de asteptare:");
-            int timpAsteptare=scanner.nextInt();
 
-            licitaties.add(new Licitatie(casa,pretPornire,timpAsteptare));
+
+            licitaties.add(new Licitatie(casa.getIdObiect(),pretPornire));
 
         }
         else if(aux==2){
@@ -313,10 +318,9 @@ public abstract class Interogare {
 
             System.out.println("Pret de pornire:");
             int pretPornire=scanner.nextInt();
-            System.out.println("Timp de asteptare:");
-            int timpAsteptare=scanner.nextInt();
 
-            licitaties.add(new Licitatie(teren,pretPornire,timpAsteptare));
+
+            licitaties.add(new Licitatie(teren.getIdObiect(),pretPornire));
 
         }else if(aux==3){
 
@@ -350,10 +354,9 @@ public abstract class Interogare {
 
             System.out.println("Pret de pornire:");
             int pretPornire=scanner.nextInt();
-            System.out.println("Timp de asteptare:");
-            int timpAsteptare=scanner.nextInt();
 
-            licitaties.add(new Licitatie(masina,pretPornire,timpAsteptare));
+
+            licitaties.add(new Licitatie(masina.getIdObiect(),pretPornire));
 
         }else if(aux==4){
 
@@ -366,8 +369,7 @@ public abstract class Interogare {
             int greutate=scanner.nextInt();
             System.out.println("Volum");
             int volum=scanner.nextInt();
-            System.out.println("Data fabricarii");
-            Date dataProductiei=null;
+
 
             System.out.println("Descriere");
             String descriere=scanner.next();
@@ -379,7 +381,7 @@ public abstract class Interogare {
             locatie += scanner.nextLine();
 
 
-            Marfiri marfa=new Marfiri(valoare,greutate, volum, dataProductiei, descriere, locatie);
+            Marfuri marfa=new Marfuri(valoare,greutate, volum, descriere, locatie);
             obiects.add(marfa);
 
 
@@ -388,10 +390,9 @@ public abstract class Interogare {
 
             System.out.println("Pret de pornire:");
             int pretPornire=scanner.nextInt();
-            System.out.println("Timp de asteptare:");
-            int timpAsteptare=scanner.nextInt();
 
-            licitaties.add(new Licitatie(marfa,pretPornire,timpAsteptare));
+
+            licitaties.add(new Licitatie(marfa.getIdObiect(),pretPornire));
 
         }else  System.out.println("Exit");
 
@@ -406,9 +407,12 @@ public abstract class Interogare {
 
         for(Licitatie el:licitaties)
         {
-        el.obiect.AfisareDate();}
+            System.out.println(el.id_obiect);
+            Obiect t=obiects.get(el.id_obiect-1);
+            t.AfisareDate();
 
-    }
+
+    }}
 
 
     public static void OprireProgram(){
@@ -417,6 +421,73 @@ public abstract class Interogare {
         System.out.println("Program oprit");
         audit.Close();
     }
+
+
+    public static void AdaugaBid(){
+
+        System.out.println("Bid Menu");
+        System.out.println("Pentru a adauga o oferta trebuie mai intai sa vezi licitatiile curente");
+
+        System.out.println("1. Vizualizare licitatii in curs");
+        System.out.println("0. Exit");
+        Scanner scanner = new Scanner(System.in);
+        int aux= scanner.nextInt();
+
+
+        if(aux==1){
+
+            AfisareLicitati();
+            System.out.println();
+            System.out.println("Alege id-ul licitatie la care doriti sa participati");
+
+            int id= scanner.nextInt();
+
+            Licitatie licitatie=Get_Licitatie(id);
+            if(licitatie.id==-100)
+                System.out.println("Licitatia cu id-ul "+id+" nu exista");
+            else{
+                System.out.println("Succes!");
+                System.out.println("Adauga pretul la care doresti sa licitezi");
+                int valoare= scanner.nextInt();
+                Bid bid_temporar= new Bid(activUser.id, licitatie.id,valoare );
+
+                bids.add(bid_temporar);
+                licitatie.bids.add(bid_temporar.id);
+
+
+            }
+
+        }
+        else  System.out.println("Exit");
+    }
+
+
+
+    public static Licitatie Get_Licitatie(int id){
+
+        Licitatie aux=new Licitatie();
+
+        for(Licitatie el:licitaties)
+        {
+           if( el.id==id)
+        aux=el;
+    }
+        return aux;
+
+}
+
+public static void QuitProgram()
+{
+    Scriere.getInstance().scrieUsers(users);
+    Scriere.getInstance().scrieBids(bids);
+    Scriere.getInstance().scrieLicitatii(licitaties);
+    Scriere.getInstance().scrieObiect(obiects);
+
+    //ScriereBD.ScriereUserBD(users);
+    //ScriereBD.ScriereBidBD(bids);
+    //ScriereBD.ScriereLicitatiiBD(licitaties);
+   // ScriereBD.ScriereObiecteBD(obiects);
+}
 
 
 }

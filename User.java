@@ -35,6 +35,10 @@ public class User {
     public String getNumeUser() {
         return userName;
     }
+    public String getPassword() {
+        return password;
+    }
+
 
     public int getIdUser() {
         return id;

@@ -1,5 +1,10 @@
 package Etapa_1;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 public class Obiect {
 
     protected int id;
@@ -17,7 +22,12 @@ public class Obiect {
         this.tipObiect=tipObiect;
     }
 
-    public void AfisareDate(){}
+    public void AfisareDate(){
+
+
+System.out.println("aaaa");
+
+    }
 
 
 
@@ -35,5 +45,13 @@ public class Obiect {
 
     public int getValoareObiect() {
         return valoare;
+    }
+
+
+    public void Scriere_Fisier(FileWriter out) throws IOException {
+    }
+
+    public  void Scriere_FisierBD(Connection conection) throws SQLException {
+
     }
 }

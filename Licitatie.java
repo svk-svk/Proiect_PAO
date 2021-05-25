@@ -6,39 +6,40 @@ public class Licitatie {
 
 
     protected int id;
-    protected Obiect obiect;
+    protected int id_obiect;
     protected int pretPornire;
-    protected int timpAsteptare;
+
     protected int pretVanzare;
     protected int idCastigator;
-    protected ArrayList<Bid> bids;
+    protected ArrayList<Integer> bids= new ArrayList<Integer>();
 
     private static int counter = 0;
 
-    public Licitatie(Obiect obiect, int pretPornire, int timpAsteptare){
+    public Licitatie(int id_obiect, int pretPornire){
 
-        this.obiect=obiect;
+        this.id_obiect=id_obiect;
         this.pretPornire=pretPornire;
-        this.timpAsteptare=timpAsteptare;
+
         counter++;
         this.id = counter;
 
     }
 
-    public void setObiect(Obiect obiect) {
-        this.obiect=obiect;
+    public Licitatie(){
+
+        this.id = -100;
 
     }
+
+
+
 
     public void setPretPornire(int pretPornire) {
         this.pretPornire=pretPornire;
 
     }
 
-    public void setTimpAsteptare(int timpAsteptare) {
-        this.timpAsteptare=timpAsteptare;
 
-    }
 
     public void setIdCastigator(int idCastigator){
         this.idCastigator=idCastigator;
