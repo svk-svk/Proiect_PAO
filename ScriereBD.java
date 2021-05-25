@@ -7,6 +7,19 @@ import java.util.ArrayList;
 
 public class ScriereBD {
 
+    private static ScriereBD scriereDBInstance= null;
+
+    private ScriereBD(){}
+
+    public static ScriereBD getInstance(){
+        if (scriereDBInstance == null){
+            scriereDBInstance = new ScriereBD();
+        }
+        return scriereDBInstance;
+    }
+
+
+
     public static void  ScriereUserBD(ArrayList<User> users) {
 
 

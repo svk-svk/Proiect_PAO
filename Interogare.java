@@ -1,10 +1,5 @@
 package Etapa_1;
 
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -90,7 +85,7 @@ public abstract class Interogare {
         activUser.setPassword(parolaNoua);
         audit.Write("Schimbare parola "+activUser.userName);
         users.set( pozitieUser, activUser );
-        UpdateBD.UpdatePasswordUserBD(parolaNoua,activUser.id);
+        UpdateBD.getInstance().UpdatePasswordUserBD(parolaNoua,activUser.id);
     }
 
 
@@ -483,10 +478,10 @@ public static void QuitProgram()
     Scriere.getInstance().scrieLicitatii(licitaties);
     Scriere.getInstance().scrieObiect(obiects);
 
-    //ScriereBD.ScriereUserBD(users);
-    //ScriereBD.ScriereBidBD(bids);
-    //ScriereBD.ScriereLicitatiiBD(licitaties);
-   // ScriereBD.ScriereObiecteBD(obiects);
+    //ScriereBD.getInstance().ScriereUserBD(users);
+    //ScriereBD.getInstance().ScriereBidBD(bids);
+    //ScriereBD.getInstance().ScriereLicitatiiBD(licitaties);
+   // ScriereBD.getInstance().ScriereObiecteBD(obiects);
 }
 
 
